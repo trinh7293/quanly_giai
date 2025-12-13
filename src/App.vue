@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import MatchCard from './components/MatchCard.vue'
+import MatchData from './components/MatchData.vue'
 </script>
 
 <template>
-  <MatchCard />
+  <MatchData />
 </template>
 
 <style scoped></style>
