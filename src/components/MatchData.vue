@@ -33,6 +33,7 @@
       sortable: false,
       title: 'San',
     },
+    { key: 'round', title: 'Round' },
     { key: 'team_1', title: 'Team 1' },
     { key: 'score', title: 'Score' },
     { key: 'team_2', title: 'Team 2' },
@@ -42,6 +43,7 @@
   const desserts = [
     {
       court: 'San 1',
+      round: 'ban ket',
       team_1: "trinh-trang",
       score: "5-7",
       team_2: "nguyen-anh",
@@ -50,6 +52,7 @@
     },
     {
       court: 'San 2',
+      round: 'ban ket',
       team_1: "le-thanh",
       score: "3-6",
       team_2: "pham-hoang",

@@ -21,6 +21,8 @@ export interface CourtDisplay { // Main screen
   fourtPlayerName?: string // team 2
   first_team_score?: number
   second_team_score?: number
+  duration?: number
+  status?: MatchStatus
 }
 
 
