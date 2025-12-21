@@ -30,7 +30,6 @@ export interface CourtDisplay { // Main screen
 export interface Player {
   id: string
   name: string
-  gender: Gender
 }
 
 export interface Team {
