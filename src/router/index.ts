@@ -1,5 +1,5 @@
+import MatchData from '@/components/MatchData.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import App from '@/App.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,8 +7,28 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: App,
-    }
+      component: MatchData,
+    },
+    {
+      path: '/players',
+      name: 'players',
+      component: MatchData,
+    },
+    {
+      path: '/team',
+      name: 'team',
+      component: MatchData,
+    },
+    {
+      path: '/match',
+      name: 'match',
+      component: MatchData,
+    },
+    {
+      path: '/round',
+      name: 'round',
+      component: MatchData,
+    },
   ],
 })
 

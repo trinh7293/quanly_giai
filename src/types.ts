@@ -1,3 +1,5 @@
+import type { MatchStatus } from "./constants"
+
 export interface Court {
   id: string
   name: string
@@ -39,31 +41,21 @@ export interface Team {
 
 export interface Match {
   id: string
-  startTime: Date
-  endTime: Date
-  duration: number //minutes
+  scheduleStartTime: Date
+  startTime?: Date
+  endTime?: Date
+  duration?: number //minutes
   courtId: string
   roundId: string
   status: MatchStatus
   first_team_id: string
   second_team_id: string
-  first_team_score: number
-  second_team_score: number
+  first_team_score?: number
+  second_team_score?: number
 }
+
 
 export interface Round {
   id: string
   name: string
 }
-
-export enum MatchStatus {
-  WAITING = 1,
-  PLAYING = 2,
-  DONE = 3,
-}
-
-export enum Gender {
-  MALE = 1,
-  FEMALE = 2
-}
-
