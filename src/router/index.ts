@@ -1,4 +1,5 @@
 import MatchData from '@/components/MatchData.vue'
+import PlayerData from '@/components/PlayerData.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -12,7 +13,7 @@ const router = createRouter({
     {
       path: '/players',
       name: 'players',
-      component: MatchData,
+      component: PlayerData,
     },
     {
       path: '/team',
