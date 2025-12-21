@@ -1,4 +1,4 @@
-import type { Court, Player, Team } from "./types";
+import type { Court, Player, Round, Team } from "./types";
 import { genArrayNumber} from "./utils";
 import _ from 'lodash'
 
@@ -18,6 +18,14 @@ const genCourts = (count: number) => {
       name: `court-${count}`
   }))
   return courts
+}
+const genRounds = (count: number) => {
+  const arrCount = genArrayNumber(count)
+  const rounds: Round[] = arrCount.map(count => ({
+      id: `round-${count}`,
+      name: `round-${count}`
+  }))
+  return rounds
 }
 
 const genTeam = (players: Player[]): Team[] => {

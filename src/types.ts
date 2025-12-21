@@ -54,7 +54,6 @@ export interface Match {
 export interface Round {
   id: string
   name: string
-  round_index: number // the match count from first round (first round is 0, second round is 1)
 }
 
 export enum MatchStatus {
