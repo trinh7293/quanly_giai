@@ -8,29 +8,29 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: MatchData,
+      component: MatchData
     },
     {
       path: '/players',
       name: 'players',
-      component: PlayerData,
+      component: PlayerData
     },
     {
       path: '/team',
       name: 'team',
-      component: MatchData,
+      component: MatchData
     },
     {
       path: '/match',
       name: 'match',
-      component: MatchData,
+      component: MatchData
     },
     {
       path: '/round',
       name: 'round',
-      component: MatchData,
-    },
-  ],
+      component: MatchData
+    }
+  ]
 })
 
 export default router

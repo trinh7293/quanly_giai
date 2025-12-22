@@ -1,8 +1,5 @@
 <template>
-  <v-card
-    title="Players"
-    flat
-  >
+  <v-card title="Players" flat>
     <template v-slot:text>
       <v-text-field
         v-model="search"
@@ -23,18 +20,18 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import { useCollection } from 'vuefire'
-  import { collection } from 'firebase/firestore'
-  import { CollName } from '@/constants'
-  import { db } from '@/firebaseConfig'
-  const players = useCollection(collection(db, CollName.PLAYER))
-  const search = ref('')
-  const headers = [
-    {
-      key: 'name',
-      sortable: false,
-      title: 'Ho va Ten',
-    }
-  ]
+import { ref } from 'vue'
+import { useCollection } from 'vuefire'
+import { collection } from 'firebase/firestore'
+import { CollName } from '@/constants'
+import { db } from '@/firebaseConfig'
+const players = useCollection(collection(db, CollName.PLAYER))
+const search = ref('')
+const headers = [
+  {
+    key: 'name',
+    sortable: false,
+    title: 'Ho va Ten'
+  }
+]
 </script>

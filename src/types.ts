@@ -1,11 +1,12 @@
-import type { MatchStatus } from "./constants"
+import type { MatchStatus } from './constants'
 
 export interface Court {
   id: string
   name: string
 }
 
-export interface CourtDisplay { // Main screen
+export interface CourtDisplay {
+  // Main screen
   courtId: string
   matchId?: string
   roundId?: string
@@ -26,8 +27,6 @@ export interface CourtDisplay { // Main screen
   duration?: number
   status?: MatchStatus
 }
-
-
 
 export interface Player {
   id: string
@@ -53,7 +52,6 @@ export interface Match {
   first_team_score?: number
   second_team_score?: number
 }
-
 
 export interface Round {
   id: string
