@@ -21,12 +21,13 @@
 
 <script setup lang="ts">
 // import { collection, query, onSnapshot } from 'firebase/firestore'
-import {ref } from 'vue'
+import { ref } from 'vue'
 import { useCollection } from 'vuefire'
 import { collection } from 'firebase/firestore'
 import { db } from '@/firebaseConfig'
+import { CollName } from '@/constants'
 
-const players = useCollection(collection(db, 'Player'))
+const players = useCollection(collection(db, CollName.PLAYER))
 const search = ref('')
 const headers = [
   {

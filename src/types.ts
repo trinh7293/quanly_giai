@@ -37,6 +37,12 @@ export interface Team {
   first_player_id: string
   second_player_id: string
 }
+export interface TeamDisplay {
+  first_player_id: string
+  second_player_id: string
+  first_player_name: string
+  second_player_name: string
+}
 
 export interface Match {
   id: string
