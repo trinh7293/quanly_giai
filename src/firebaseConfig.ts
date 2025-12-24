@@ -23,10 +23,5 @@ const firebaseConfig = {
 }
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig)
-export const db = getFirestore(app)
-
-export const playerCol = collection(db, CollName.PLAYER).withConverter({
-  toFirestore: (data: Player) => data,
-  fromFirestore: (snap: QueryDocumentSnapshot) => snap.data() as Player
-})
+export const firebaseApp = initializeApp(firebaseConfig)
+export const db = getFirestore(firebaseApp)

@@ -20,11 +20,13 @@
 </template>
 
 <script setup lang="ts">
-import { collection, query, onSnapshot } from 'firebase/firestore'
-import type { Player } from '@/types'
-import { onMounted, ref } from 'vue'
-import { CollName } from '@/constants'
-import { db, playerCol } from '@/firebaseConfig'
+// import { collection, query, onSnapshot } from 'firebase/firestore'
+import {ref } from 'vue'
+import { useCollection } from 'vuefire'
+import { collection } from 'firebase/firestore'
+import { db } from '@/firebaseConfig'
+
+const players = useCollection(collection(db, 'Player'))
 const search = ref('')
 const headers = [
   {
@@ -33,16 +35,4 @@ const headers = [
     title: 'Ho va Ten'
   }
 ]
-const players: Player[] = []
-onMounted(() => {
-  // Fetch player data from Firestore
-  const q = query(playerCol)
-  const unsubscribe = onSnapshot(q, (querySnapshot) => {
-    const cities = []
-    querySnapshot.forEach((doc) => {
-      cities.push(doc.data().name)
-    })
-    console.log('Current cities in CA: ', cities.join(', '))
-  })
-})
 </script>
