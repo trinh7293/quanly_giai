@@ -2,8 +2,8 @@
   <v-sheet border rounded>
     <v-data-table
       :headers="headers"
-      :hide-default-footer="player.length < 11"
-      :items="player"
+      :hide-default-footer="players.length < 11"
+      :items="players"
     >
       <template v-slot:top>
         <v-toolbar flat>
@@ -86,7 +86,8 @@
   </v-dialog>
 </template>
 <script setup lang="ts">
-import type { Player } from '@/types'
+import { useStore } from '@/stores/store'
+import { storeToRefs } from 'pinia'
 import { onMounted, ref, shallowRef, toRef } from 'vue'
 
 function createNewRecord() {
@@ -96,14 +97,26 @@ function createNewRecord() {
   }
 }
 
-const player = ref<Player[]>([])
+const store = useStore()
+const { players } = storeToRefs(store)
+const { addPlayer, editPlayer, deletePlayer } = store
+
 const formModel = ref(createNewRecord())
 const dialog = shallowRef(false)
 const isEditing = toRef(() => !!formModel.value.id)
 
 const headers = [
-  { title: 'name', key: 'name', align: 'start' as const },
-  { title: 'Actions', key: 'actions', align: 'end' as const, sortable: false }
+  {
+    title: 'name',
+    key: 'name',
+    align: 'start' as const
+  },
+  {
+    title: 'Actions',
+    key: 'actions',
+    align: 'end' as const,
+    sortable: false
+  }
 ]
 
 onMounted(() => {
@@ -116,7 +129,7 @@ function add() {
 }
 
 function edit(id: string) {
-  const found = player.value.find((pla) => pla.id === id)
+  const found = players.value.find((pla) => pla.id === id)
   if (!found) {
     console.log('no player found')
     return
@@ -130,17 +143,15 @@ function edit(id: string) {
 }
 
 function remove(id: string) {
-  const index = player.value.findIndex((pla) => pla.id === id)
-  player.value.splice(index, 1)
+  deletePlayer(id)
 }
 
 function save() {
+  const { id, name } = formModel.value
   if (isEditing.value) {
-    const index = player.value.findIndex((pla) => pla.id === formModel.value.id)
-    player.value[index] = formModel.value
+    editPlayer(id, name)
   } else {
-    formModel.value.id = (player.value.length + 1).toString()
-    player.value.push(formModel.value)
+    addPlayer(name)
   }
 
   dialog.value = false
@@ -149,15 +160,5 @@ function save() {
 function reset() {
   dialog.value = false
   formModel.value = createNewRecord()
-  player.value = [
-    {
-      id: '1',
-      name: 'To Kill a Mockingbird'
-    },
-    {
-      id: '2',
-      name: '1984'
-    }
-  ]
 }
 </script>
