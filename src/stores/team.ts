@@ -1,6 +1,6 @@
 import { CollName } from '@/constants'
 import { db } from '@/firebaseConfig'
-import type { Player, Team } from '@/types'
+import type { Player, Team, TeamDisplay } from '@/types'
 import { collection } from 'firebase/firestore'
 import { defineStore, storeToRefs } from 'pinia'
 import { computed } from 'vue'
@@ -17,7 +17,7 @@ export const useTeamStore = defineStore('team', () => {
   return { players, teams, teamsUI }
 })
 
-const getTeamsUi = (players: Player[], teams: Team[]) => {
+const getTeamsUi = (players: Player[], teams: Team[]): TeamDisplay[] => {
   console.log(players)
   console.log(teams)
   return teams.map((te) => {
@@ -31,6 +31,7 @@ const getTeamsUi = (players: Player[], teams: Team[]) => {
     const first_player_name = firstPla.name
     const second_player_name = secPla.name
     return {
+      id: te.id,
       first_player_id,
       second_player_id,
       first_player_name,

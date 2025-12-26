@@ -34,10 +34,12 @@ export interface Player {
 }
 
 export interface Team {
+  id: string
   first_player_id: string
   second_player_id: string
 }
 export interface TeamDisplay {
+  id: string
   first_player_id: string
   second_player_id: string
   first_player_name: string

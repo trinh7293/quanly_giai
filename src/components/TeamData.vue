@@ -1,42 +1,156 @@
 <template>
-  <v-card title="Teams" flat>
-    <template v-slot:text>
-      <v-text-field
-        v-model="search"
-        label="Search"
-        prepend-inner-icon="mdi-magnify"
-        variant="outlined"
-        hide-details
-        single-line
-      ></v-text-field>
-    </template>
-
+  <v-sheet border rounded>
     <v-data-table
       :headers="headers"
+      :hide-default-footer="teamsUI.length < 11"
       :items="teamsUI"
-      :search="search"
-    ></v-data-table>
-  </v-card>
-</template>
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title>
+            <v-icon
+              color="medium-emphasis"
+              icon="mdi-book-multiple"
+              size="x-small"
+              start
+            ></v-icon>
 
+            Popular books
+          </v-toolbar-title>
+
+          <v-btn
+            class="me-2"
+            prepend-icon="mdi-plus"
+            rounded="lg"
+            text="Add a Book"
+            border
+            @click="add"
+          ></v-btn>
+        </v-toolbar>
+      </template>
+
+      <!-- <template v-slot:[`item.actions`]="{ item }">
+        <div class="d-flex ga-2 justify-end">
+          <v-icon
+            color="medium-emphasis"
+            icon="mdi-pencil"
+            size="small"
+            @click="edit(item.id)"
+          ></v-icon>
+
+          <v-icon
+            color="medium-emphasis"
+            icon="mdi-delete"
+            size="small"
+            @click="remove(item.id)"
+          ></v-icon>
+        </div>
+      </template> -->
+    </v-data-table>
+  </v-sheet>
+
+  <v-dialog v-model="dialog" max-width="500">
+    <v-card
+      :subtitle="`${isEditing ? 'Update' : 'Create'} your favorite book`"
+      :title="`${isEditing ? 'Edit' : 'Add'} a Book`"
+    >
+      <template v-slot:text>
+        <v-row>
+          <v-col cols="12">
+            <v-text-field v-model="formModel.name" label="Title"></v-text-field>
+          </v-col>
+        </v-row>
+      </template>
+
+      <v-divider></v-divider>
+
+      <v-card-actions class="bg-surface-light">
+        <v-btn text="Cancel" variant="plain" @click="dialog = false"></v-btn>
+
+        <v-spacer></v-spacer>
+
+        <!-- <v-btn text="Save" @click="save"></v-btn> -->
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+</template>
 <script setup lang="ts">
 import { useTeamStore } from '@/stores/team'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { onMounted, ref, shallowRef, toRef } from 'vue'
+
+function createNewRecord() {
+  return {
+    id: '',
+    name: ''
+  }
+}
 
 const teamStore = useTeamStore()
 const { teamsUI } = storeToRefs(teamStore)
-const search = ref('')
+
+const formModel = ref(createNewRecord())
+const dialog = shallowRef(false)
+const isEditing = toRef(() => !!formModel.value.id)
+
 const headers = [
   {
+    title: 'VDV 1',
     key: 'first_player_name',
-    sortable: false,
-    title: 'Van dong vien 1'
+    align: 'start' as const
   },
   {
-    key: 'second_player_name',
-    sortable: false,
-    title: 'Van dong vien 2'
+    title: 'VDV 2',
+    key: 'second_player_name'
+  },
+  {
+    title: 'Actions',
+    key: 'actions',
+    align: 'end' as const,
+    sortable: false
   }
 ]
+
+onMounted(() => {
+  reset()
+})
+
+function add() {
+  formModel.value = createNewRecord()
+  dialog.value = true
+}
+
+// function edit(id: string) {
+//   // const found = players.value.find((pla) => pla.id === id)
+//   // if (!found) {
+//   //   console.log('no player found')
+//   //   return
+//   // }
+//   // formModel.value = {
+//   //   id: found.id,
+//   //   name: found.name
+//   // }
+
+//   dialog.value = true
+// }
+
+// function remove(id: string) {
+//   // deletePlayer(id)
+// }
+
+// function save() {
+//   const { id, name } = formModel.value
+//   if (isEditing.value) {
+//     // editPlayer(id, name)
+//   } else {
+//     // addPlayer(name)
+//   }
+
+//   dialog.value = false
+// }
+
+function reset() {
+  dialog.value = false
+  formModel.value = createNewRecord()
+}
 </script>
