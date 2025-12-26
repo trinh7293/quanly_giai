@@ -25,6 +25,7 @@
     "vuetify": "^3.11.3"
   },
   "devDependencies": {
+    "@mdi/font": "^7.4.47",
     "@tsconfig/node24": "^24.0.3",
     "@types/lodash": "^4.17.21",
     "@types/node": "^24.10.1",
