@@ -86,7 +86,7 @@
   </v-dialog>
 </template>
 <script setup lang="ts">
-import { useStore } from '@/stores/store'
+import { usePlayerStore } from '@/stores/players'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref, shallowRef, toRef } from 'vue'
 
@@ -97,9 +97,9 @@ function createNewRecord() {
   }
 }
 
-const store = useStore()
-const { players } = storeToRefs(store)
-const { addPlayer, editPlayer, deletePlayer } = store
+const playerStore = usePlayerStore()
+const { players } = storeToRefs(playerStore)
+const { addPlayer, editPlayer, deletePlayer } = playerStore
 
 const formModel = ref(createNewRecord())
 const dialog = shallowRef(false)

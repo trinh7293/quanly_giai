@@ -20,13 +20,12 @@
 </template>
 
 <script setup lang="ts">
-// import { collection, query, onSnapshot } from 'firebase/firestore'
-import { useStore } from '@/stores/store'
+import { useTeamStore } from '@/stores/team'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 
-const store = useStore()
-const { teamsUI } = storeToRefs(store)
+const teamStore = useTeamStore()
+const { teamsUI } = storeToRefs(teamStore)
 const search = ref('')
 const headers = [
   {
