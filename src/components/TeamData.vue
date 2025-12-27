@@ -29,7 +29,7 @@
         </v-toolbar>
       </template>
 
-      <!-- <template v-slot:[`item.actions`]="{ item }">
+      <template v-slot:[`item.actions`]="{ item }">
         <div class="d-flex ga-2 justify-end">
           <v-icon
             color="medium-emphasis"
@@ -38,14 +38,14 @@
             @click="edit(item.id)"
           ></v-icon>
 
-          <v-icon
+          <!-- <v-icon
             color="medium-emphasis"
             icon="mdi-delete"
             size="small"
             @click="remove(item.id)"
-          ></v-icon>
+          ></v-icon> -->
         </div>
-      </template> -->
+      </template>
     </v-data-table>
   </v-sheet>
 
@@ -57,7 +57,21 @@
       <template v-slot:text>
         <v-row>
           <v-col cols="12">
-            <v-text-field v-model="formModel.name" label="Title"></v-text-field>
+            <!-- <v-text-field v-model="formModel.name" label="Title"></v-text-field> -->
+            <v-select
+              label="First Player"
+              :items="players"
+              item-title="name"
+              item-value="id"
+              v-model="formModel.first_player_id"
+            ></v-select>
+            <v-select
+              label="Second Player"
+              :items="players"
+              item-title="name"
+              item-value="id"
+              v-model="formModel.second_player_id"
+            ></v-select>
           </v-col>
         </v-row>
       </template>
@@ -69,12 +83,13 @@
 
         <v-spacer></v-spacer>
 
-        <!-- <v-btn text="Save" @click="save"></v-btn> -->
+        <v-btn text="Save" @click="save"></v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 <script setup lang="ts">
+import { usePlayerStore } from '@/stores/players'
 import { useTeamStore } from '@/stores/team'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref, shallowRef, toRef } from 'vue'
@@ -82,12 +97,16 @@ import { onMounted, ref, shallowRef, toRef } from 'vue'
 function createNewRecord() {
   return {
     id: '',
-    name: ''
+    first_player_id: '',
+    second_player_id: ''
   }
 }
 
 const teamStore = useTeamStore()
+const playerStore = usePlayerStore()
+const { players } = storeToRefs(playerStore)
 const { teamsUI } = storeToRefs(teamStore)
+const { editTeam } = teamStore
 
 const formModel = ref(createNewRecord())
 const dialog = shallowRef(false)
@@ -120,34 +139,35 @@ function add() {
   dialog.value = true
 }
 
-// function edit(id: string) {
-//   // const found = players.value.find((pla) => pla.id === id)
-//   // if (!found) {
-//   //   console.log('no player found')
-//   //   return
-//   // }
-//   // formModel.value = {
-//   //   id: found.id,
-//   //   name: found.name
-//   // }
+function edit(id: string) {
+  const found = teamsUI.value.find((te) => te.id === id)
+  if (!found) {
+    console.log('no team found')
+    return
+  }
+  formModel.value = {
+    id: found.id,
+    first_player_id: found.first_player_id,
+    second_player_id: found.second_player_id
+  }
 
-//   dialog.value = true
-// }
+  dialog.value = true
+}
 
 // function remove(id: string) {
 //   // deletePlayer(id)
 // }
 
-// function save() {
-//   const { id, name } = formModel.value
-//   if (isEditing.value) {
-//     // editPlayer(id, name)
-//   } else {
-//     // addPlayer(name)
-//   }
+function save() {
+  const { id, first_player_id, second_player_id } = formModel.value
+  if (isEditing.value) {
+    editTeam(id, first_player_id, second_player_id)
+  } else {
+    // addPlayer(name)
+  }
 
-//   dialog.value = false
-// }
+  dialog.value = false
+}
 
 function reset() {
   dialog.value = false

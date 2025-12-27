@@ -1,7 +1,7 @@
 import { CollName } from '@/constants'
 import { db } from '@/firebaseConfig'
 import type { Player, Team, TeamDisplay } from '@/types'
-import { collection } from 'firebase/firestore'
+import { collection, doc, updateDoc } from 'firebase/firestore'
 import { defineStore, storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useCollection } from 'vuefire'
@@ -13,8 +13,19 @@ export const useTeamStore = defineStore('team', () => {
   const { players } = storeToRefs(usePlayerStore())
 
   const teamsUI = computed(() => getTeamsUi(players.value, teams.value))
+  const editTeam = async (
+    id: string,
+    first_player_id: string,
+    second_player_id: string
+  ) => {
+    const teamRef = doc(db, CollName.TEAM, id)
+    await updateDoc(teamRef, {
+      first_player_id,
+      second_player_id
+    })
+  }
 
-  return { players, teams, teamsUI }
+  return { players, teams, teamsUI, editTeam }
 })
 
 const getTeamsUi = (players: Player[], teams: Team[]): TeamDisplay[] => {

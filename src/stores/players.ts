@@ -9,11 +9,18 @@ import {
   updateDoc
 } from 'firebase/firestore'
 import { defineStore } from 'pinia'
+import { computed } from 'vue'
 import { useCollection } from 'vuefire'
 
 export const usePlayerStore = defineStore('players', () => {
   const playerRef = collection(db, CollName.PLAYER)
-  const players = useCollection<Player>(playerRef)
+  const playersWithoutId = useCollection<Player>(playerRef)
+  const players = computed(() =>
+    playersWithoutId.value.map((p) => ({
+      id: p.id,
+      name: p.name
+    }))
+  )
 
   const addPlayer = async (name: string) => {
     const docRef = await addDoc(playerRef, {
