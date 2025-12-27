@@ -38,12 +38,12 @@
             @click="edit(item.id)"
           ></v-icon>
 
-          <!-- <v-icon
+          <v-icon
             color="medium-emphasis"
             icon="mdi-delete"
             size="small"
             @click="remove(item.id)"
-          ></v-icon> -->
+          ></v-icon>
         </div>
       </template>
     </v-data-table>
@@ -106,7 +106,7 @@ const teamStore = useTeamStore()
 const playerStore = usePlayerStore()
 const { players } = storeToRefs(playerStore)
 const { teamsUI } = storeToRefs(teamStore)
-const { editTeam } = teamStore
+const { editTeam, addTeam, deleteTeam } = teamStore
 
 const formModel = ref(createNewRecord())
 const dialog = shallowRef(false)
@@ -154,16 +154,16 @@ function edit(id: string) {
   dialog.value = true
 }
 
-// function remove(id: string) {
-//   // deletePlayer(id)
-// }
+function remove(id: string) {
+  deleteTeam(id)
+}
 
 function save() {
   const { id, first_player_id, second_player_id } = formModel.value
   if (isEditing.value) {
     editTeam(id, first_player_id, second_player_id)
   } else {
-    // addPlayer(name)
+    addTeam(first_player_id, second_player_id)
   }
 
   dialog.value = false

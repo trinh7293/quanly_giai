@@ -1,7 +1,13 @@
 import { CollName } from '@/constants'
 import { db } from '@/firebaseConfig'
 import type { Player, Team, TeamDisplay } from '@/types'
-import { collection, doc, updateDoc } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc
+} from 'firebase/firestore'
 import { defineStore, storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { useCollection } from 'vuefire'
@@ -13,6 +19,13 @@ export const useTeamStore = defineStore('team', () => {
   const { players } = storeToRefs(usePlayerStore())
 
   const teamsUI = computed(() => getTeamsUi(players.value, teams.value))
+  const addTeam = async (first_player_id: string, second_player_id: string) => {
+    const docRef = await addDoc(teamRef, {
+      first_player_id,
+      second_player_id
+    })
+    console.log('Document written with ID: ', docRef.id)
+  }
   const editTeam = async (
     id: string,
     first_player_id: string,
@@ -24,8 +37,13 @@ export const useTeamStore = defineStore('team', () => {
       second_player_id
     })
   }
+  const deleteTeam = async (id: string) => {
+    const teamRef = doc(db, CollName.TEAM, id)
+    await deleteDoc(teamRef)
+    console.log('Document deleted with ID: ', teamRef.id)
+  }
 
-  return { players, teams, teamsUI, editTeam }
+  return { players, teams, teamsUI, editTeam, deleteTeam, addTeam }
 })
 
 const getTeamsUi = (players: Player[], teams: Team[]): TeamDisplay[] => {
