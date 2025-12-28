@@ -15,14 +15,14 @@
               start
             ></v-icon>
 
-            Popular books
+            Teams
           </v-toolbar-title>
 
           <v-btn
             class="me-2"
             prepend-icon="mdi-plus"
             rounded="lg"
-            text="Add a Book"
+            text="Add Team"
             border
             @click="add"
           ></v-btn>
@@ -75,7 +75,7 @@
           </v-col>
         </v-row>
       </template>
-
+      {{ errorLogic ? `error: ${errorLogic}` : '' }}
       <v-divider></v-divider>
 
       <v-card-actions class="bg-surface-light">
@@ -107,6 +107,7 @@ const playerStore = usePlayerStore()
 const { players } = storeToRefs(playerStore)
 const { teamsUI } = storeToRefs(teamStore)
 const { editTeam, addTeam, deleteTeam } = teamStore
+const errorLogic = ref('')
 
 const formModel = ref(createNewRecord())
 const dialog = shallowRef(false)
@@ -135,11 +136,13 @@ onMounted(() => {
 })
 
 function add() {
+  errorLogic.value = ''
   formModel.value = createNewRecord()
   dialog.value = true
 }
 
 function edit(id: string) {
+  errorLogic.value = ''
   const found = teamsUI.value.find((te) => te.id === id)
   if (!found) {
     console.log('no team found')
@@ -160,6 +163,11 @@ function remove(id: string) {
 
 function save() {
   const { id, first_player_id, second_player_id } = formModel.value
+  if (first_player_id == second_player_id) {
+    errorLogic.value = 'same player'
+    return
+  }
+  errorLogic.value = ''
   if (isEditing.value) {
     editTeam(id, first_player_id, second_player_id)
   } else {
@@ -171,6 +179,7 @@ function save() {
 
 function reset() {
   dialog.value = false
+  errorLogic.value = ''
   formModel.value = createNewRecord()
 }
 </script>

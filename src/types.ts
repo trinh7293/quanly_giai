@@ -31,6 +31,7 @@ export interface CourtDisplay {
 export interface Player {
   id: string
   name: string
+  teamId: string | undefined
 }
 
 export interface Team {

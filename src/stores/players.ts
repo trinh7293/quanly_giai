@@ -15,12 +15,13 @@ import { useCollection } from 'vuefire'
 export const usePlayerStore = defineStore('players', () => {
   const playerRef = collection(db, CollName.PLAYER)
   const playersWithoutId = useCollection<Player>(playerRef)
-  const players = computed(() =>
-    playersWithoutId.value.map((p) => ({
+  const players = computed(() => {
+    const resu = playersWithoutId.value.map((p) => ({
       id: p.id,
       name: p.name
-    }))
-  )
+    })) as Player[]
+    return resu
+  })
 
   const addPlayer = async (name: string) => {
     const docRef = await addDoc(playerRef, {

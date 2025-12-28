@@ -43,7 +43,14 @@ export const useTeamStore = defineStore('team', () => {
     console.log('Document deleted with ID: ', teamRef.id)
   }
 
-  return { players, teams, teamsUI, editTeam, deleteTeam, addTeam }
+  return {
+    players,
+    teams: teams.value.map((t) => ({ ...t })),
+    teamsUI,
+    editTeam,
+    deleteTeam,
+    addTeam
+  }
 })
 
 const getTeamsUi = (players: Player[], teams: Team[]): TeamDisplay[] => {
